@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiDownload } from "react-icons/fi";
 
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
@@ -84,9 +84,20 @@ const NavLinks = styled.nav`
     flex-direction: column;
     padding: 14px;
     border-radius: 12px;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
     display: ${({ open }) => (open ? "flex" : "none")};
   }
+`;
+
+const ResumeBtn = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--accent), #4ad7ff);
+  color: #041022;
+  font-weight: 700;
+  font-size: 13px;
 `;
 
 const MenuBtn = styled.button`
@@ -98,7 +109,6 @@ const MenuBtn = styled.button`
 
   @media (max-width: 820px) {
     display: flex;
-    align-items: center;
   }
 `;
 
@@ -106,13 +116,9 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const closeOnResize = () => {
-      if (window.innerWidth > 820) {
-        setOpen(false);
-      }
-    };
-    window.addEventListener("resize", closeOnResize);
-    return () => window.removeEventListener("resize", closeOnResize);
+    const resize = () => window.innerWidth > 820 && setOpen(false);
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
   }, []);
 
   return (
@@ -128,6 +134,9 @@ export default function Navbar() {
           <a href="#about" onClick={() => setOpen(false)}>About</a>
           <a href="#services" onClick={() => setOpen(false)}>Services</a>
           <a href="#projects" onClick={() => setOpen(false)}>Projects</a>
+          <ResumeBtn href="/resume.pdf" target="_blank">
+            <FiDownload /> Resume
+          </ResumeBtn>
         </NavLinks>
 
         <MenuBtn onClick={() => setOpen(!open)}>

@@ -57,7 +57,7 @@ export default function Footer() {
         <Divider />
 
         <IconButton
-          href="https://www.linkedin.com/in/krishna-raval"
+          href="https://www.linkedin.com/in/krushnraval112211/"
           target="_blank"
           rel="noopener noreferrer"
         >

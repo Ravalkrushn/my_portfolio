@@ -44,26 +44,93 @@ const Title = styled.h3`
 const TechList = styled.ul`
   list-style: none;
   padding: 0;
-  margin: 10px 0 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  margin: 24px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
 
-  @media (max-width: 520px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 480px) {
+    gap: 8px;
+  }
+`;
+
+const TechIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 480px) {
+    width: 32px;
+    height: 32px;
   }
 `;
 
 const TechItem = styled.li`
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   color: var(--muted);
-  font-size: 14px;
+  font-size: 15px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 80px;
 
-  img {
-    width: 18px;
-    height: 18px;
+  &:nth-child(-n + 3) {
+    flex: 0 1 calc(33.33% - 12px);
+  }
+  &:nth-child(4),
+  &:nth-child(5) {
+    flex: 0 1 calc(48% - 12px);
+  }
+  &:nth-child(6) {
+    flex: 0 1 80%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 6px;
+    font-size: 11px;
+    gap: 6px;
+
+    &:nth-child(-n + 3) {
+      flex: 0 1 calc(33.33% - 6px);
+    }
+    &:nth-child(4),
+    &:nth-child(5) {
+      flex: 0 1 calc(50% - 6px);
+    }
+    &:nth-child(6) {
+      flex: 0 1 100%;
+    }
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.15);
+
+    ${TechIcon} {
+      box-shadow: 0 0 20px
+        ${(props) => props.$shadowColor || "rgba(255,255,255,0.2)"};
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.05);
+    }
   }
 `;
 
@@ -72,6 +139,11 @@ const Card = styled.div`
   padding: 18px;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
 `;
 
 const EduItem = styled.div`
@@ -88,7 +160,7 @@ const EduItem = styled.div`
   img {
     width: 46px;
     height: 46px;
-    border-radius: 50%;
+    border-radius: 10px;
     object-fit: cover;
   }
 
@@ -102,6 +174,11 @@ const EduItem = styled.div`
     text-decoration: none;
     display: block;
     margin-bottom: 4px;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #646cff;
+    }
   }
 
   .sub {
@@ -116,12 +193,50 @@ const EduItem = styled.div`
   }
 
   @media (max-width: 480px) {
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px 0;
+
     .year {
-      margin-left: auto;
+      margin-top: 4px;
+      font-weight: 500;
     }
   }
 `;
+
+const tech = [
+  {
+    name: "React.js",
+    image: "/react.svg",
+    shadow: "rgba(97, 218, 251, 0.5)",
+  },
+  {
+    name: "Vite",
+    image: "/vite.svg",
+    shadow: "rgba(100, 108, 255, 0.5)",
+  },
+  {
+    name: "MongoDB",
+    image: "/mongodb.svg",
+    shadow: "rgba(71, 162, 72, 0.5)",
+  },
+  {
+    name: "Figma / UI Design",
+    image: "/figma.svg",
+    shadow: "rgba(255, 114, 94, 0.5)",
+  },
+  {
+    name: "Responsive Design",
+    image: "/responsive.svg",
+    shadow: "rgba(76, 175, 80, 0.5)",
+  },
+  {
+    name: "Git / GitHub",
+    image: "/github.svg",
+    shadow: "rgba(240, 80, 51, 0.5)",
+  },
+];
 
 export default function About() {
   return (
@@ -130,38 +245,22 @@ export default function About() {
         <Badge>About Me</Badge>
 
         <Text>
-          I’m a BCA student and a passionate frontend developer who enjoys building
-          clean, modern, and responsive user interfaces. I focus on performance,
-          accessibility, and smooth user experience.
+          I’m a BCA student and a passionate frontend developer who enjoys
+          building clean, modern, and responsive user interfaces. I focus on
+          performance, accessibility, and smooth user experience.
         </Text>
 
         <Title>Tech & Tools</Title>
 
         <TechList>
-          <TechItem>
-            <img src="/logo192.png" alt="React" />
-            React.js
-          </TechItem>
-
-          <TechItem>
-            <img src="/vite.svg" alt="Vite" />
-            Vite
-          </TechItem>
-
-          <TechItem>
-            <img src="/github.png" alt="GitHub" />
-            Git / GitHub
-          </TechItem>
-
-          <TechItem>
-            <img src="/figma.png" alt="Figma" />
-            Figma / UI Design
-          </TechItem>
-
-          <TechItem>
-            <img src="/responsive.png" alt="Responsive" />
-            Responsive Design
-          </TechItem>
+          {tech.map((t, i) => (
+            <TechItem key={i} $shadowColor={t.shadow}>
+              <TechIcon $shadowColor={t.shadow}>
+                <img src={t.image} alt={t.name} />
+              </TechIcon>
+              {t.name}
+            </TechItem>
+          ))}
         </TechList>
       </Left>
 

@@ -122,7 +122,14 @@ export default function Hero() {
 
       <Right>
         <div className="photo-wrapper">
-          <img src="/krishna" alt="Krishna" />
+<img
+  src="/krishna"
+  alt="Krishna"
+  width="300"
+  height="300"
+  fetchpriority="high"
+  decoding="async"
+/>
         </div>
       </Right>
     </Section>

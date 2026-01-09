@@ -20,6 +20,11 @@ const IconBar = styled.div`
   align-items: center;
   gap: 24px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+
+  @media (max-width: 480px) {
+    padding: 8px 20px;
+    gap: 18px;
+  }
 `;
 
 const IconButton = styled.a`

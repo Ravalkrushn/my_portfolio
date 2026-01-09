@@ -19,6 +19,7 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
     line-height:1.5;
+    overflow-x: hidden;
   }
 
   a{color:inherit; text-decoration:none}

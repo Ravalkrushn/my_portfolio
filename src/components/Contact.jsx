@@ -6,6 +6,10 @@ const Section = styled.section`
   margin: 30px auto 50px;
   padding: 22px 20px;
   border-radius: 14px;
+
+  @media (max-width: 480px) {
+    margin: 20px auto 40px;
+  }
 `;
 
 const Title = styled.h3`

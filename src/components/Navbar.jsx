@@ -28,6 +28,10 @@ const NavInner = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 480px) {
+    padding: 12px 16px;
+  }
 `;
 
 const Brand = styled.a`
@@ -85,6 +89,7 @@ const NavLinks = styled.nav`
     padding: 14px;
     border-radius: 12px;
     display: ${({ open }) => (open ? "flex" : "none")};
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -130,10 +135,18 @@ export default function Navbar() {
         </Brand>
 
         <NavLinks open={open}>
-          <a href="#home" onClick={() => setOpen(false)}>Home</a>
-          <a href="#about" onClick={() => setOpen(false)}>About</a>
-          <a href="#services" onClick={() => setOpen(false)}>Services</a>
-          <a href="#projects" onClick={() => setOpen(false)}>Projects</a>
+          <a href="#home" onClick={() => setOpen(false)}>
+            Home
+          </a>
+          <a href="#about" onClick={() => setOpen(false)}>
+            About
+          </a>
+          <a href="#services" onClick={() => setOpen(false)}>
+            Services
+          </a>
+          <a href="#projects" onClick={() => setOpen(false)}>
+            Projects
+          </a>
           <ResumeBtn href="/resume.pdf" target="_blank">
             <FiDownload /> Resume
           </ResumeBtn>

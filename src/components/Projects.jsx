@@ -8,6 +8,10 @@ const Section = styled.section`
   max-width: 1200px;
   margin: 80px auto;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    margin: 60px auto;
+  }
 `;
 
 const Title = styled.h2`
@@ -24,10 +28,10 @@ const Sub = styled.p`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 26px;
 
-  @media (max-width: 540px) {
+  @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -137,6 +141,12 @@ const Close = styled.button`
   &:hover {
     background: #fff;
     transform: translateY(-50%) scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    right: 20px;
+    width: 40px;
+    height: 40px;
   }
 `;
 

@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Section = styled.section`
   max-width: 1100px;
@@ -12,6 +16,10 @@ const Section = styled.section`
 
   @media (max-width: 920px) {
     grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 16px;
   }
 `;
 
@@ -239,10 +247,134 @@ const tech = [
 ];
 
 export default function About() {
+  const sectionRef = useRef(null);
+  const badgeRef = useRef(null);
+  const techListRef = useRef(null);
+  const educationRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Animate the whole section on scroll
+      gsap.fromTo(
+        sectionRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+
+      // 2. Animate the "About Me" badge
+      gsap.fromTo(
+        badgeRef.current,
+        { scale: 0.9, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+          },
+        }
+      );
+
+      // 3. Animate Tech list items
+      gsap.fromTo(
+        techListRef.current.children,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: techListRef.current,
+            start: "top 85%",
+          },
+        }
+      );
+
+      // 4. Add GSAP hover animation on TechItem
+      const techItems = gsap.utils.toArray(techListRef.current.children);
+      techItems.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+          gsap.to(item, {
+            scale: 1.05,
+            y: -5, // Maintain/enhance the translateY effect from CSS
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        });
+        item.addEventListener("mouseleave", () => {
+          gsap.to(item, {
+            scale: 1,
+            y: 0,
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        });
+      });
+
+      // 5. Animate Education cards
+      const eduItems = Array.from(educationRef.current.children).filter(
+        (child) => child.tagName === "DIV"
+      );
+
+      if (eduItems.length > 0) {
+        // Left card
+        gsap.fromTo(
+          eduItems[0],
+          { x: -30, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: educationRef.current,
+              start: "top 80%",
+            },
+          }
+        );
+      }
+
+      if (eduItems.length > 1) {
+        // Right card
+        gsap.fromTo(
+          eduItems[1],
+          { x: 30, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: educationRef.current,
+              start: "top 80%",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <Section id="about">
+    <Section id="about" ref={sectionRef}>
       <Left>
-        <Badge>About Me</Badge>
+        <Badge ref={badgeRef}>About Me</Badge>
 
         <Text>
           I’m a BCA student and a passionate frontend developer who enjoys
@@ -252,7 +384,7 @@ export default function About() {
 
         <Title>Tech & Tools</Title>
 
-        <TechList>
+        <TechList ref={techListRef}>
           {tech.map((t, i) => (
             <TechItem key={i} $shadowColor={t.shadow}>
               <TechIcon $shadowColor={t.shadow}>
@@ -264,7 +396,7 @@ export default function About() {
         </TechList>
       </Left>
 
-      <Card>
+      <Card ref={educationRef}>
         <Title>Education</Title>
 
         <EduItem>
